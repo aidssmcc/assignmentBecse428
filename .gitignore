@@ -1,0 +1,15 @@
+# Intellij
+*.iml
+.idea/*
+
+# Maven
+target/
+
+# Custom
+*.shadow
+vendor/
+
+# Java
+*.jar
+
+
