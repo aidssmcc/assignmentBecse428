@@ -30,6 +30,14 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.sample</groupId>
+            <artifactId>sample</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>/home/aidssmcc/git_repos/assignment2ecse428/vendor/selenium-java-3.141.59/libs/byte-buddy-1.8.15.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>
