@@ -40,13 +40,16 @@ public class Stepdefs {
     @Given("^a user is logged into their gmail$")
     public void a_user_is_logged_into_their_gmail() throws Exception {
 
+        // Read login credentials
         ArrayList<String> creds = readFile(SHADOW_PATH);
-        String testSubject = "Test1";
 
+        // set up drivers before attempting to log in
         setupSeleniumWebDrivers();
 
+        // go to page
         driver.get("https://mail.google.com");
 
+        // input credentials
         WebElement emailLogin = driver.findElement(By.id("identifierId"));
         emailLogin.sendKeys(creds.get(0));
 
@@ -61,6 +64,8 @@ public class Stepdefs {
         passwordNext.click();
 
         Thread.sleep(3000); // Pause for page to load
+        // only detected if previous message is read. Else would throw an error and fail the test
+        WebElement firstRow = driver.findElement(By.className("yO"));
     }
 
     @When("^the compose button is selected$")
@@ -107,9 +112,12 @@ public class Stepdefs {
         Thread.sleep(6000);     // Pause for message send
         java.util.List<WebElement> subjects = driver.findElements(By.xpath("//*[@class='bog']"));
 
-        System.out.println(subjects.get(0).getText());
-
+        // Compare subject text to email that was sent
         Assert.assertTrue( subjects.get(0).getText().equals(SUBJECT_TEXT));
+
+        // Open email so that it is no longer unread. Ensures next test has an unread email.
+        subjects.get(0).click();
+        Thread.sleep(2000);
         driver.quit();
     }
 
@@ -141,6 +149,8 @@ public class Stepdefs {
     public void a_popup_will_appear_warning_the_user() throws Exception {
         Thread.sleep(1000);     // Pause for message send
         WebElement errorText = driver.findElement(By.xpath("//span[@role='heading' and contains(text(), 'Error')]"));
+
+        // ensure that alert has expected text
         Assert.assertTrue(errorText.getText().equals("Error"));
         driver.quit();
     }
@@ -187,7 +197,7 @@ public class Stepdefs {
     }
 
     /**
-     * Given a valid robot, it will type out the text provided manually. Copy pasting was problematic in this
+     * Creates a robot that will type out the text provided manually. Copy pasting was problematic in this
      * environment so this is the workaround
      * @param text A string of text for the robot to type out
      * @param enter If true, will press the enter key after execution
