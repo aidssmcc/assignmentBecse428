@@ -7,7 +7,7 @@ target/
 
 # Custom
 *.shadow
-vendor/
+vendor/*
 
 # Java
 *.jar
